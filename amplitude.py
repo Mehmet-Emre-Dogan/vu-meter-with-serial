@@ -3,14 +3,16 @@ calculating, adding and displaying. '''
 
 import math
 import struct
-from vu_constants import SHORT_NORMALIZE
+import sys
+from vu_constants import SHORT_NORMALIZE, LINE_CLEAR
 
 class Amplitude(object):
     ''' an abstraction for Amplitudes (with an underlying float value)
     that packages a display function and many more '''
 
-    def __init__(self, value=0):
-        self.value = value
+    def __init__(self, p_value=0, p_blPrintConsequtively=False):
+        self.value = p_value
+        self.blPrintConsequtively = p_blPrintConsequtively
 
     def __add__(self, other):
         return Amplitude(self.value + other.value)
@@ -36,15 +38,15 @@ class Amplitude(object):
         return self.to_int()
 
     def __str__(self):
-        return self.value + " dB"
+        return str(self.value) + " dB"
 
     @staticmethod
-    def from_data(block):
+    def from_data(block, *args):
         ''' generate an Amplitude object based on a block of audio input data '''
         count = len(block) / 2
         shorts = struct.unpack("%dh" % count, block)
         sum_squares = sum(s**2 * SHORT_NORMALIZE**2 for s in shorts)
-        return Amplitude(math.sqrt(sum_squares / count))
+        return Amplitude(math.sqrt(sum_squares / count), *args)
 
     def display(self, mark, scale=50):
         ''' display an amplitude and another (marked) maximal Amplitude
@@ -52,5 +54,14 @@ class Amplitude(object):
         int_val = self.to_int(scale)
         mark_val = mark.to_int(scale)
         delta = abs(int_val - mark_val)
-        print(int_val * '*', (delta-1) * ' ', '|')
+        emptySpaceAtTheEnd = scale - mark_val
+
+        if(self.blPrintConsequtively):
+            print(int_val * '*', (delta-1) * ' ', '|')
+        else:
+            sTextToBePrinted = f"\r[{str(int_val).zfill(3)}][{int_val * '='}{(delta-1) * '-'}{'X'}{emptySpaceAtTheEnd * '-'}]"
+            sys.stdout.write(LINE_CLEAR)
+            sys.stdout.write(sTextToBePrinted)
+            sys.stdout.flush()
+       
         

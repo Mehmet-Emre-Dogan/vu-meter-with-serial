@@ -1,0 +1,17 @@
+{
+    "ConsoleDisplayEnabled"     :  false,
+    "PrintConsequtively"        :  false,
+
+    "UseSpeakerOrMic"           :  "Speaker",
+
+    "AmbientNoiseForMicInDB"    :  0.05,
+
+    "InputBlockTimeInSeconds"   :  0.005,
+
+    "SerialDeviceSettings"      :   
+        {
+            "COMPort"           : "COM6",
+            "Baudrate"          : 115200,
+            "TimeoutInSeconds"  : 1
+        }
+}

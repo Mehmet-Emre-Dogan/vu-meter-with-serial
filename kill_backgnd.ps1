@@ -1,0 +1,1 @@
+Get-WmiObject Win32_Process -Filter "name = 'pythonw.exe'" | where {$_.CommandLine -eq 'pythonw  vu_meter.py ".\vu_config.json"'} | ForEach-Object { Invoke-WmiMethod -Path $_.__Path -Name Terminate }
