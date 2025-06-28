@@ -76,7 +76,7 @@ def main(p_sConfigDictPath):
                 maximal = Amplitude()
                 while True:
                     data = stream.read(iInputFramesPerBlock, exception_on_overflow=False)
-                    amp = Amplitude.from_data(data, dtConfig["PrintConsequtively"])
+                    amp = Amplitude.from_data(data, dtConfig["Gain"], dtConfig["PrintConsequtively"])
                     if dtConfig["UseSpeakerOrMic"] == "Mic":
                         amp -= Amplitude(dtConfig["AmbientNoiseForMicInDB"])
                         # print(amp)

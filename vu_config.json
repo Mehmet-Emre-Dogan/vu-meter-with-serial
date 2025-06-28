@@ -3,6 +3,8 @@
     "PrintConsequtively"        :  false,
 
     "UseSpeakerOrMic"           :  "Speaker",
+	
+	"Gain"						: 5,
 
     "AmbientNoiseForMicInDB"    :  0.05,
 
@@ -10,7 +12,7 @@
 
     "SerialDeviceSettings"      :   
         {
-            "COMPort"           : "COM6",
+            "COMPort"           : "COM5",
             "Baudrate"          : 115200,
             "TimeoutInSeconds"  : 1
         }

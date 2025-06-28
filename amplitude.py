@@ -5,6 +5,7 @@ import math
 import struct
 import sys
 from vu_constants import SHORT_NORMALIZE, LINE_CLEAR
+from vu_utilityFunctions import Saturate
 
 class Amplitude(object):
     ''' an abstraction for Amplitudes (with an underlying float value)
@@ -41,12 +42,12 @@ class Amplitude(object):
         return str(self.value) + " dB"
 
     @staticmethod
-    def from_data(block, *args):
+    def from_data(block, gain, *args):
         ''' generate an Amplitude object based on a block of audio input data '''
-        count = len(block) / 2
+        count = len(block) // 2
         shorts = struct.unpack("%dh" % count, block)
         sum_squares = sum(s**2 * SHORT_NORMALIZE**2 for s in shorts)
-        return Amplitude(math.sqrt(sum_squares / count), *args)
+        return Amplitude(Saturate(math.sqrt(sum_squares / count) * gain, -1.0, 1.0), *args)
 
     def display(self, mark, scale=50):
         ''' display an amplitude and another (marked) maximal Amplitude

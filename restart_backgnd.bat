@@ -1,0 +1,2 @@
+kill_backgnd.ps1
+run_backgnd.bat
